@@ -1,0 +1,230 @@
+
+<html>
+<head>
+	<title>Particle Tracker</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+
+<style media="screen">
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        'frame frame sidebar '
+        'frame frame sidebar '
+        'footer footer sidebar ';
+    grid-template-columns: 35vw 35vw auto;
+    grid-template-rows: 70vh 10vh;
+    grid-gap: 5px;
+    background-color: #8c8c8c;
+    padding: 10px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.grid-container>div {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 10px 10px;
+    font-size: 30px;
+}
+
+.sidebar-div {
+    grid-area: sidebar;
+}
+
+.footer-div {
+    grid-area: footer;
+}
+
+.frame-div {
+    grid-area: frame;
+}
+
+.videofeed img{
+    width: 100%;
+    height: 90%;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+
+.footer-div > .ui-slider {
+    height: 12px;
+    width: 97%;
+    margin: auto;
+    /* padding-left: auto; */
+    /* text-align: center; */
+}
+
+.sidebar-div > .ui-slider {
+    height: 12px;
+    width: 90%;
+    margin: auto;
+    /* padding-left: auto; */
+    /* text-align: center; */
+}
+
+input[type=text] {
+  border: #f2f2f2;
+  background-color: #f2f2f2;
+  text-align: center;
+  font-size: 20px;
+}
+
+#reset-button {
+    font-size: 16px;
+}
+
+#start-button {
+    font-size: 16px;
+}
+
+.ui-progressbar {
+  position: relative;
+  height: 5%;
+}
+.progress-label {
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #fff;
+  font-size: 16px;
+  text-align: center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+    <div class="grid-container">
+
+        <div class="frame-div">
+            <div class="videofeed">
+                <img src="{{ url_for('video_feed') }}">
+            </div>
+        </div>
+
+        <div class="sidebar-div">
+            <div class="selection", id="auto-selection">
+                {{videopath}}
+                <p>Auto Selection</p>
+                <p>Size of particles</p>
+                <div id="slider-size"></div>
+                <input type="text" id="display-size">
+                <p>Maximum number of particules</p>
+                <input type="number" id="max-particules" min="0" value="200" oninput="send_max_particules()">
+                <p>Number of particles detected : {{numParticles}}</p>
+                <form action="{{ url_for('track') }}" , method="post">
+                    <button id="start-button" type="submit">Start acquisition</button>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="footer-div">
+            <div id="slider-frame"></div>
+            <br>
+            <form class="" action="{{ url_for('index') }}" method="post">
+                <button id="reset-button" type="submit">Home</button>
+            </form>
+
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+
+// // frame Slider
+$( function() {
+    videolen = parseInt({{videolength}});
+var $slide = $( "#slider-frame" ).slider({
+  range: true,
+  min: 1,
+  max: videolen,
+  values: [ 1, videolen ],
+  slide: function( event, ui ) {
+    $( "#amount" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+    $.post( "/preview", {
+    'firstFrame' : ui.values[ 0 ], 'lastFrame' : ui.values[ 1 ]
+        });
+       }
+    });
+$( "#amount" ).val($( "#slider-frame" ).slider( "values", 0 ) +
+  " - " + $( "#slider-frame" ).slider( "values", 1 ) );
+} );
+
+//
+// // Size slider
+$( function() {
+$( "#slider-size" ).slider({
+  range: true,
+  min: 0,
+  max: 50,
+  values: [ 0, 50 ],
+  slide: function( event, ui ) {
+    $( "#display-size" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+    $.post( "/preview", {
+    'minSizeSlider' : ui.values[ 0 ], 'maxSizeSlider' : ui.values[ 1 ]
+        });
+  }
+});
+$( "#display-size" ).val($( "#slider-size" ).slider( "values", 0 ) +
+  " - " + $( "#slider-size" ).slider( "values", 1 ) );
+} );
+
+function send_max_particules() {
+    data = document.getElementById("max-particules").value;
+    $.post( "/preview", {
+    'maxParticles' : data});
+}
+//
+// // reset button
+// var resetbutton =  document.getElementById("reset-button");
+// resetbutton.onclick = function() {
+//     console.log('click reset');
+//     fetch('/', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({'videopath' : 'reset'})
+//     }).then(function(response) {
+//         return response.text();
+//     }).then(function(text) {
+//         // console.log('POST response: ');
+//         // console.log(text);
+//     });
+// }
+//
+// // start button
+// var startbutton =  document.getElementById("start-button");
+// startbutton.onclick = function() {
+//     console.log('click start');
+//     fetch('/', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({'state' : 1})
+//     }).then(function(response) {
+//         return response.text();
+//     }).then(function(text) {
+//         // console.log('POST response: ');
+//         // console.log(text);
+//     });
+// }
+
+</script>

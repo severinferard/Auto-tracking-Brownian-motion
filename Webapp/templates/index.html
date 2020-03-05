@@ -1,0 +1,73 @@
+
+<html>
+<head>
+	<title>Particle Tracker</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<style>
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.header {
+  padding: 80px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  height: 100vh;
+
+}
+
+.header h1 {
+  font-size: 60px;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputlabel {
+    cursor: pointer;
+    color: white;
+    background-color: plum;
+    padding: 10px;
+    font-size: 40px;
+    border-radius: 10px;
+    
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+    <div class="header">
+        <h1>Particles Tracker</h1>
+        <h3>Select a <b>videofile</b> to begin !</h3>
+        <form action="{{ url_for('preview') }}" , method="get" id="fileform">
+            <input type="file" id="videopath" class="inputfile"><br>
+            <label for="videopath" class="inputlabel" ><b>Select a file</b></label>
+        </form>
+    </div>
+
+<script>
+var form = document.getElementById("fileform");
+var input = document.getElementById('videopath');
+input.onchange = function(e) { 
+    $.post( "/preview", {
+    'videopath' : input.value});
+    form.submit()
+
+};
+</script>
+</body>
+
