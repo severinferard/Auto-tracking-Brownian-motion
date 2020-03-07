@@ -1,0 +1,47 @@
+body {
+  background-color: lavender;
+  margin: 0;
+  padding: 0;
+}
+
+#placeholder {
+  height: 100px;
+  width: 100%;
+}
+
+.progress {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background-color: white;
+}
+
+.textbar {
+  height: 30px;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+}
+
+.flex-text {
+  font-size: 20px;
+  color: black;
+  font-family: 'Spartan', sans-serif;
+}
+
+#progressbar-topwrapper {
+  height: 70px;
+  background-color: lightseagreen;
+}
+
+#progressbar-canvas {
+  background-color: white;
+}
+/*# sourceMappingURL=progressbar.css.map */
