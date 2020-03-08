@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/newStyle.css">
+    <link rel="stylesheet" href="/templates/samples/progressbar.css">
+    <script src="/templates/samples/progressbar.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Comfortaa|Quicksand&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
@@ -13,17 +15,24 @@
 </head>
 <body>
     <div class="topnav">
-        <a class="active" href="#home">Preparation</a>
-        <a href="#news">Analyze</a>
-        <a href="#contact">Results</a>
+      <div class="progress">
+        <div id="progressbar-topwrapper">
+            <svg id="progressbar-svg"></svg>
+        </div>
+        <div class="textbar">
+            <div class="flex-text">Setup</div>
+            <div class="flex-text">Analyzis</div>
+            <div class="flex-text">Results</div>
+        </div>
+    </div>
       </div>
 
       <div class="sidenav">
         <div id="sidenav-logo">Brownia</div>
-        <a href="#">Track !</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Tutorial</a>
-        <a href="#">Exemples</a>
+        <a id="tracking-btn" href="#">Track !</a>
+        <a id="dashboard-btn" href="#">Dashboard</a>
+        <a id="tuto-btn" href="#">Tutorial</a>
+        <a id="exemples-btn" href="#">Exemples</a>
       </div>
 
       <div class="main">

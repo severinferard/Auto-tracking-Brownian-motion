@@ -1,5 +1,5 @@
 
-$topbar-height: 73px;
+$topbar-height: 100px;
 $sidebar-color: #253544;
 $sidebar-width: 160px;
 
@@ -64,6 +64,10 @@ body{
     display: block;
     font-family: 'Spartan', sans-serif;
     font-size: 20px;
+}
+
+.sidenav a:hover{
+  background-color:#485e74;
 }
 
 #sidenav-logo{

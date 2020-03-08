@@ -66,9 +66,13 @@ body {
   font-size: 20px;
 }
 
+.sidenav a:hover {
+  background-color: #485e74;
+}
+
 #sidenav-logo {
   background-color: #253544;
-  height: 73px;
+  height: 100px;
   color: white;
   text-align: center;
   line-height: 73px;
@@ -91,7 +95,7 @@ body {
   right: 0;
   left: 0;
   bottom: 0;
-  top: 73px;
+  top: 100px;
   background-color: #e0e0e0;
   padding: 0;
 }
