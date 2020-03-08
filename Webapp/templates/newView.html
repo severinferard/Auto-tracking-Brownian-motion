@@ -1,57 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/newStyle.css">
-    <link rel="stylesheet" href="/templates/samples/progressbar.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/newStyle.css" />
+    <link rel="stylesheet" href="/templates/samples/progressbar.css" />
     <script src="/templates/samples/progressbar.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Quicksand&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Comfortaa|Quicksand&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Spartan&display=swap" rel="stylesheet">
 
     <title>Brownia</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="topnav">
-      <div class="progress">
-        <div id="progressbar-topwrapper">
-            <svg id="progressbar-svg"></svg>
-        </div>
-        <div class="textbar">
-            <div class="flex-text">Setup</div>
-            <div class="flex-text">Analyzis</div>
-            <div class="flex-text">Results</div>
-        </div>
-    </div>
+      <div class="topnav-icons">
+        <a href="https://github.com/severinferard"><i class="fa fa-github topnav-icon"></i></a>
+        <a href="https://www.cri-paris.org/en"><div class="cri-icon"></div></a>
       </div>
-
-      <div class="sidenav">
-        <div id="sidenav-logo">Brownia</div>
-        <a id="tracking-btn" href="#">Track !</a>
-        <a id="dashboard-btn" href="#">Dashboard</a>
-        <a id="tuto-btn" href="#">Tutorial</a>
-        <a id="exemples-btn" href="#">Exemples</a>
-      </div>
-
-      <div class="main">
-        <table>
-          <tr>
-            <td id="video-side">
-              <div id="video-wrapper">
-
-              </div>
-            </td>
-            <td id="settings-side">
-              <div id="settings-wrapper">
-                
-              </div>
-            </td>
-          </tr>
-        </table>
-
     </div>
-    
-</body>
+
+    <div class="sidenav">
+      <div id="sidenav-logo">Brownia</div>
+      <a id="tracking-btn" href="#">Track !</a>
+      <a id="dashboard-btn" href="#">Dashboard</a>
+      <a id="tuto-btn" href="#">Tutorial</a>
+      <a id="exemples-btn" href="#">Exemples</a>
+    </div>
+
+    <div class="main">
+      <table>
+        <tr>
+          <td id="video-side">
+            <div id="video-wrapper"></div>
+          </td>
+          <td id="settings-side" rowspan="2">
+            <div id="settings-wrapper">
+              <div id="setting-title">
+                <a><i class="fa fa-object-ungroup settings-title-icon"></i></a>
+                <a><i class="fa fa-object-ungroup settings-title-icon"></i></a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="bottombar">
+              <div class="progress">
+                <div id="progressbar-topwrapper">
+                  <svg id="progressbar-svg"></svg>
+                </div>
+                <div class="textbar">
+                  <div class="flex-text">Setup</div>
+                  <div class="flex-text">Analyzis</div>
+                  <div class="flex-text">Results</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>

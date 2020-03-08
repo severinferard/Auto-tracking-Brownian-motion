@@ -38,7 +38,7 @@ class ProgressBar {
 
         
       this.canvas = svg;
-      this.lefOffset = document.getElementsByClassName("sidenav")[0].getBoundingClientRect().width;
+      this.lefOffset = document.getElementsByClassName("sidenav")[0].getBoundingClientRect().width + 10;
         console.log(this.lefOffset);
       this.state = "setup-1";
       this.bubble = { out: null, in: null };

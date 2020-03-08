@@ -4,36 +4,37 @@ body {
 }
 
 .topnav {
+  position: relative;
   margin-left: 160px;
+  height: 50px;
   background-color: white;
   overflow: hidden;
 }
 
-.topnav a {
-  font-family: 'Comfortaa', cursive;
-  float: left;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-  width: 200px;
-  height: 25px;
-  border-radius: 25px;
-  margin: 10px 5px 10px 5px;
+.topnav-icons {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  font-size: 2.5em;
+  color: black;
+  right: 0;
+  margin: 0;
 }
 
-.topnav a:nth-child(1) {
-  background: #68DADD;
+.topnav-icons a {
+  color: black;
+  float: right;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
-.topnav a:nth-child(2) {
-  background: #FF79A7;
-}
-
-.topnav a:nth-child(3) {
-  background: #7446E5;
+.cri-icon {
+  background: url("https://www.cri-paris.org/user/themes/cri/images/CRI-sm.png");
+  background-size: contain;
+  height: 50px;
+  width: 50px;
 }
 
 .sidenav {
@@ -72,10 +73,10 @@ body {
 
 #sidenav-logo {
   background-color: #253544;
-  height: 100px;
+  height: 50px;
   color: white;
   text-align: center;
-  line-height: 73px;
+  line-height: 50px;
   font-family: 'Pacifico', cursive;
   font-size: 30px;
 }
@@ -95,7 +96,7 @@ body {
   right: 0;
   left: 0;
   bottom: 0;
-  top: 100px;
+  top: 50px;
   background-color: #e0e0e0;
   padding: 0;
 }
@@ -116,9 +117,11 @@ body {
   display: table-cell;
   background-color: #e0e0e0;
   width: 70vw;
+  height: 80%;
 }
 
 #settings-side {
+  padding: 0;
   display: table-cell;
   background-color: white;
 }
@@ -127,7 +130,44 @@ body {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 80%;
+  height: 100%;
   background-color: black;
+}
+
+#bottombar {
+  position: relative;
+  bottom: 0;
+  background-color: red;
+  height: 100px;
+  width: 100%;
+}
+
+#settings-wrapper {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
+#setting-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  width: 100%;
+  height: 30px;
+  background-color: #8785ff;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.settings-title-icon {
+  color: white;
+  padding: 5px;
+}
+
+.settings-title-icon:hover {
+  color: white;
+  background-color: #485e74;
 }
 /*# sourceMappingURL=newStyle.css.map */
