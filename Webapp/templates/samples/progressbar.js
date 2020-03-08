@@ -2,14 +2,39 @@
 
 
 window.onload = () => {
+    function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+        var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+      
+        return {
+          x: centerX + (radius * Math.cos(angleInRadians)),
+          y: centerY + (radius * Math.sin(angleInRadians))
+        };
+      }
+      
+    function describeArc(x, y, radius, startAngle, endAngle){
+
+        var start = polarToCartesian(x, y, radius, endAngle);
+        var end = polarToCartesian(x, y, radius, startAngle);
+    
+        var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+    
+        var d = [
+            "M", start.x, start.y, 
+            "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+        ].join(" ");
+    
+        return d;       
+    }
+
     var canvas = document.getElementById("progressbar-canvas")
 
     class ProgressBar {
 
-        constructor(canvas) {
-          this.canvas = canvas;
-          this.ctx = this.canvas.getContext("2d");
+        constructor(svg) {
+          this.canvas = svg;
+        //   this.ctx = this.canvas.getContext("2d");
           this.state = "setup-1"
+          this.bubble = {out: null, in: null}
           this.bubbleTargetX = 0
           this.bubbleTargetY = 0
           this.bubbleVelX = 0
@@ -17,16 +42,17 @@ window.onload = () => {
           this.bubbleSpeed = .1
           var txtElement = document.getElementsByClassName("flex-text")[1]
           this.stepTargetX = txtElement.getBoundingClientRect().x + (txtElement.getBoundingClientRect().width / 2)
-          this.stepTargetY = (this.canvas.height / 3) * 0.7
+          this.stepTargetY = (this.canvas.getBoundingClientRect().height / 2) 
           this.bubbleX = this.stepTargetX;
           this.bubbleY = this.stepTargetY;
           this.positions = []
 
           this.crossSpeed = 1;
-
+          this.cross = {x: null, y: null}
           this.crossCenterX = document.getElementsByClassName("flex-text")[0]
             .getBoundingClientRect().x + (txtElement.getBoundingClientRect().width / 2) - 50;  
-          this.crossCenterY = (this.canvas.height / 3) +5;
+          this.crossCenterY = (document.getElementById("progressbar-topwrapper").getBoundingClientRect().height/ 2) +5;
+          
 
         }
     
@@ -46,8 +72,8 @@ window.onload = () => {
         }
     
         resizeCanvas() {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = 70;
+            // this.canvas.width = window.innerWidth;
+            // this.canvas.height = 70;
         }
         
         trackingAnimation(){
@@ -73,38 +99,50 @@ window.onload = () => {
             this.bubbleY += this.bubbleVelY
             this.positions.push({x: this.bubbleX, y: this.bubbleY})
             
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            try {
+                this.canvas.removeChild(this.bubble.out);
+                this.canvas.removeChild(this.bubble.in)}
+               catch(err){}
 
             if (this.positions.length > 300) {
                 this.positions.slice(Math.max(this.positions.length - 300, 1)).forEach(element => {
-                    this.ctx.beginPath();
-                this.ctx.strokeStyle = 'green';
-                this.ctx.lineWidth = .5;
-                this.ctx.arc(element.x, element.y, 1, 0, Math.PI*1.5, true);
-                this.ctx.stroke();
+                    this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    this.bubble.out.setAttribute("cx", element.x)
+                    this.bubble.out.setAttribute("cy", element.y)
+                    this.bubble.out.setAttribute("r", 1)
+                    this.bubble.out.setAttribute("fill", "none")
+                    this.bubble.out.setAttribute("stroke-width", "1")
+                    this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.append(this.bubble.out)
                 })
                     
             } else {
                 this.positions.forEach(element => {
-                this.ctx.beginPath();
-                this.ctx.strokeStyle = 'green';
-                this.ctx.lineWidth = .5;
-                this.ctx.arc(element.x, element.y, 1, 0, Math.PI*1.5, true);
-                this.ctx.stroke();
+                    this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    this.bubble.out.setAttribute("cx", element.x)
+                    this.bubble.out.setAttribute("cy", element.y)
+                    this.bubble.out.setAttribute("r", 1)
+                    this.bubble.out.setAttribute("fill", "none")
+                    this.bubble.out.setAttribute("stroke-width", "1")
+                    this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.append(this.bubble.out)
             });} 
             
-                
 
-            this.ctx.beginPath();
-            this.ctx.strokeStyle = '#8bc9ee';
-            this.ctx.lineWidth = 2;
-            this.ctx.arc(this.bubbleX, this.bubbleY, 10 - 3, 0, Math.PI*1.5, true);
-            this.ctx.stroke();
-
-            this.ctx.beginPath();
-            this.ctx.arc(this.bubbleX, this.bubbleY, 10, 0, Math.PI*2, false);
-            this.ctx.stroke();
-        
+            this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            this.bubble.out.setAttribute("cx", this.bubbleX)
+            this.bubble.out.setAttribute("cy", this.bubbleY)
+            this.bubble.out.setAttribute("r", 10)
+            this.bubble.out.setAttribute("fill", "none")
+            this.bubble.out.setAttribute("stroke-width", "2")
+            this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+            this.canvas.append(this.bubble.out)
+            this.bubble.in = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            this.bubble.in.setAttribute("d", describeArc(this.bubbleX, this.bubbleY, 7, -10, 90))
+            this.bubble.in.setAttribute("fill", "none")
+            this.bubble.in.setAttribute("stroke-width", "2")
+            this.bubble.in.setAttribute("stroke", "rgb(0, 0, 0)")
+            this.canvas.append(this.bubble.in)
             setTimeout(this.updateBubble.bind(this), 10);
             
         }
@@ -116,7 +154,7 @@ window.onload = () => {
                    var middleX = document.getElementsByClassName("flex-text")[0]
                    .getBoundingClientRect().x 
                    + (document.getElementsByClassName("flex-text")[0].getBoundingClientRect().width / 2)
-                   var middleY = (this.canvas.height / 2)
+                   var middleY = (this.canvas.getBoundingClientRect().height / 2)
                    var limitX = middleX - 30;  
                    var limitY = middleY -25;
                    var tx = limitX - this.crossCenterX;
@@ -138,42 +176,57 @@ window.onload = () => {
                
                    this.crossCenterX += this.crossVelX
                    this.crossCenterY += this.crossVelY
-
-                   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                   this.ctx.strokeStyle = '#000';
+                    
                    var l = 10;
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.crossCenterX - l, this.crossCenterY)
-                   this.ctx.lineTo(this.crossCenterX + l, this.crossCenterY)
-                   this.ctx.stroke()
-
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.crossCenterX, this.crossCenterY - l)
-                   this.ctx.lineTo(this.crossCenterX, this.crossCenterY + l)
-                   this.ctx.stroke()
-
-                   this.ctx.beginPath();
-                   this.ctx.strokeStyle = '#8bc9ee';
-                   this.ctx.lineWidth = 2;
-                   this.ctx.arc(middleX, middleY, 10 - 3, 0, Math.PI*1.5, true);
-                   this.ctx.stroke();
-
-                   this.ctx.beginPath();
-                   this.ctx.arc(middleX, middleY, 10, 0, Math.PI*2, false);
-                   this.ctx.stroke();
+                   try {
+                    this.canvas.removeChild(this.cross.x);
+                    this.canvas.removeChild(this.cross.y)
+                    this.canvas.removeChild(this.bubble.out);
+                    this.canvas.removeChild(this.bubble.in)}
+                   catch(err){}
+                   
+                    this.cross.x = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.cross.x.setAttribute("x1", this.crossCenterX -l);
+                    this.cross.x.setAttribute("y1", this.crossCenterY);
+                    this.cross.x.setAttribute("x2", this.crossCenterX +l);
+                    this.cross.x.setAttribute("y2", this.crossCenterY);
+                    this.cross.x.setAttribute("stroke-width", "2");
+                    this.cross.x.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.appendChild(this.cross.x);
+                    this.cross.y = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.cross.y.setAttribute("x1", this.crossCenterX);
+                    this.cross.y.setAttribute("y1", this.crossCenterY - l);
+                    this.cross.y.setAttribute("x2", this.crossCenterX);
+                    this.cross.y.setAttribute("y2", this.crossCenterY + l);
+                    this.cross.y.setAttribute("stroke-width", "2");
+                    this.cross.y.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.appendChild(this.cross.y);
+                    this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    this.bubble.out.setAttribute("cx", middleX)
+                    this.bubble.out.setAttribute("cy", middleY)
+                    this.bubble.out.setAttribute("r", 10)
+                    this.bubble.out.setAttribute("fill", "none")
+                    this.bubble.out.setAttribute("stroke-width", "2")
+                    this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.append(this.bubble.out)
+                    this.bubble.in = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    this.bubble.in.setAttribute("d", describeArc(middleX, middleY, 7, -10, 90))
+                    this.bubble.in.setAttribute("fill", "none")
+                    this.bubble.in.setAttribute("stroke-width", "2")
+                    this.bubble.in.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.append(this.bubble.in)
                    break;
                    
                case "setup-2":
                    var middleX = document.getElementsByClassName("flex-text")[0]
                    .getBoundingClientRect().x 
                    + (document.getElementsByClassName("flex-text")[0].getBoundingClientRect().width / 2)
-                   var middleY = (this.canvas.height / 2)
+                   var middleY = (this.canvas.getBoundingClientRect().height / 2)
                    var limitX = middleX + 30; 
                    var limitY = middleY + 20;
                    var tx = this.lastLimitX - this.crossCenterX;
                    var ty = this.lastLimitY - this.crossCenterY;
                    var dist = Math.sqrt(tx*tx+ty*ty);
-                   
 
                    if (dist > 74) {
                        return
@@ -188,52 +241,41 @@ window.onload = () => {
 
                    this.crossCenterX += this.crossVelX
                    this.crossCenterY += this.crossVelY
+
+                   try {
+                    this.canvas.removeChild(this.cross.x);
+                    this.canvas.removeChild(this.cross.y);
+                    this.canvas.removeChild(this.rectangle);
+                    }catch(err){}
                    
-                   //cross
-                   this.ctx.lineWidth = 1;
-                   this.ctx.strokeStyle = '#000';
-                   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                   var l = 10;
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.crossCenterX - l, this.crossCenterY)
-                   this.ctx.lineTo(this.crossCenterX + l, this.crossCenterY)
-                   this.ctx.stroke()
 
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.crossCenterX, this.crossCenterY - l)
-                   this.ctx.lineTo(this.crossCenterX, this.crossCenterY + l)
-                   this.ctx.stroke()
-
-                   //bubble
-                   this.ctx.beginPath();
-                   this.ctx.strokeStyle = '#8bc9ee';
-                   this.ctx.lineWidth = 2;
-                   this.ctx.arc(middleX, middleY, 10 - 3, 0, Math.PI*1.5, true);
-                   this.ctx.stroke();
-       
-                   this.ctx.beginPath();
-                   this.ctx.arc(middleX, middleY, 10, 0, Math.PI*2, false);
-                   this.ctx.stroke();
-
-                   //rectangle
-                   this.ctx.beginPath();
-                   this.ctx.strokeStyle = 'red';
-                   this.ctx.lineWidth = 3;
-                   this.ctx.moveTo(this.lastLimitX, this.lastLimitY)
-                   this.ctx.lineTo(this.crossCenterX, this.lastLimitY)
-                   this.ctx.stroke()
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.crossCenterX, this.lastLimitY)
-                   this.ctx.lineTo(this.crossCenterX, this.crossCenterY)
-                   this.ctx.stroke()
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.lastLimitX, this.lastLimitY)
-                   this.ctx.lineTo(this.lastLimitX, this.crossCenterY)
-                   this.ctx.stroke()
-                   this.ctx.beginPath();
-                   this.ctx.moveTo(this.lastLimitX, this.crossCenterY)
-                   this.ctx.lineTo(this.crossCenterX, this.crossCenterY)
-                   this.ctx.stroke()
+                    this.rectangle = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                    this.rectangle.setAttribute("x", this.lastLimitX);
+                    this.rectangle.setAttribute("y", this.lastLimitY);
+                    this.rectangle.setAttribute("width", this.crossCenterX - this.lastLimitX);
+                    this.rectangle.setAttribute("height", this.crossCenterY - this.lastLimitY);
+                    this.rectangle.setAttribute("stroke-width", "2");
+                    this.rectangle.setAttribute("stroke", "rgb(255, 0, 0)")
+                    this.rectangle.setAttribute("fill", "transparent")
+                    this.canvas.appendChild(this.rectangle);
+                    var l = 10;
+                    this.cross.x = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.cross.x.setAttribute("x1", this.crossCenterX -l);
+                    this.cross.x.setAttribute("y1", this.crossCenterY);
+                    this.cross.x.setAttribute("x2", this.crossCenterX +l);
+                    this.cross.x.setAttribute("y2", this.crossCenterY);
+                    this.cross.x.setAttribute("stroke-width", "2");
+                    this.cross.x.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.appendChild(this.cross.x);
+                    this.cross.y = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.cross.y.setAttribute("x1", this.crossCenterX);
+                    this.cross.y.setAttribute("y1", this.crossCenterY - l);
+                    this.cross.y.setAttribute("x2", this.crossCenterX);
+                    this.cross.y.setAttribute("y2", this.crossCenterY + l);
+                    this.cross.y.setAttribute("stroke-width", "2");
+                    this.cross.y.setAttribute("stroke", "rgb(0, 0, 0)")
+                    this.canvas.appendChild(this.cross.y);
+                   
                    break;
                        
         }
@@ -244,13 +286,12 @@ window.onload = () => {
             console.log("start");
             // this.setupAnimation();
             // this.trackingAnimation();
-
     
         }
     
       }
     
-    progressbar = new ProgressBar(canvas)
+    progressbar = new ProgressBar(document.getElementById("progressbar-svg"))
     progressbar.resizeCanvas()
     progressbar.start()
     

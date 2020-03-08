@@ -41,7 +41,9 @@ body {
   background-color: lightseagreen;
 }
 
-#progressbar-canvas {
+#progressbar-svg {
   background-color: white;
+  height: 70px;
+  width: 100%;
 }
 /*# sourceMappingURL=progressbar.css.map */
