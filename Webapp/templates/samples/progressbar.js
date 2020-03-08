@@ -39,13 +39,17 @@ window.onload = () => {
           this.bubbleTargetY = 0
           this.bubbleVelX = 0
           this.bubbleVelY = 0
-          this.bubbleSpeed = .1
+          this.bubbleTrackingSpeed = .1
+          this.bubbleSpead = 4
+          this.bubbleColor = "rgb(142, 200, 255)"
           var txtElement = document.getElementsByClassName("flex-text")[1]
           this.stepTargetX = txtElement.getBoundingClientRect().x + (txtElement.getBoundingClientRect().width / 2)
           this.stepTargetY = (this.canvas.getBoundingClientRect().height / 2) 
-          this.bubbleX = this.stepTargetX;
-          this.bubbleY = this.stepTargetY;
+          this.bubbleX = 0;
+          this.bubbleY = (this.canvas.getBoundingClientRect().height / 2) ;
           this.positions = []
+          this.firstAnimationReached = false;
+          this.secondAnimationReached = false;
 
           this.crossSpeed = 1;
           this.cross = {x: null, y: null}
@@ -59,13 +63,16 @@ window.onload = () => {
         setTarget() {
             console.log("setTarget");
             
-
+            var middleX = document.getElementsByClassName("flex-text")[1]
+            .getBoundingClientRect().x 
+            + (document.getElementsByClassName("flex-text")[0].getBoundingClientRect().width / 2)
+            var middleY = (this.canvas.getBoundingClientRect().height / 2)
             var numX = Math.floor(Math.random()*20) + 1; // this will get a number between 1 and 99;
             numX *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
             var numY = Math.floor(Math.random()*20) + 1; // this will get a number between 1 and 99;
             numY *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-            this.bubbleTargetX = this.stepTargetX + numX
-            this.bubbleTargetY = this.stepTargetY + numY
+            this.bubbleTargetX = middleX + numX
+            this.bubbleTargetY = middleY + numY
             setTimeout(this.setTarget.bind(this), 1000)
             
             
@@ -75,16 +82,12 @@ window.onload = () => {
             // this.canvas.width = window.innerWidth;
             // this.canvas.height = 70;
         }
+
         
-        trackingAnimation(){
-            console.log("trackingAnimation");
-            
-            this.setTarget();
-            this.updateBubble();
-        }
+
         updateBubble() {
             //  console.log("updateBubble");
-             
+            
             var tx = this.bubbleTargetX - this.bubbleX;
             var ty = this.bubbleTargetY - this.bubbleY;
             var dist = Math.sqrt(tx*tx+ty*ty);
@@ -92,69 +95,147 @@ window.onload = () => {
             var rad = Math.atan2(ty,tx);
             var angle = rad/Math.PI * 180;
 
-            this.bubbleVelX = (tx/dist)*this.bubbleSpeed;
-            this.bubbleVelY = (ty/dist)*this.bubbleSpeed;
+            this.bubbleVelX = (tx/dist)*this.bubbleTrackingSpeed;
+            this.bubbleVelY = (ty/dist)*this.bubbleTrackingSpeed;
         
             this.bubbleX += this.bubbleVelX
             this.bubbleY += this.bubbleVelY
-            this.positions.push({x: this.bubbleX, y: this.bubbleY})
+            
             
             try {
                 this.canvas.removeChild(this.bubble.out);
                 this.canvas.removeChild(this.bubble.in)}
                catch(err){}
 
-            if (this.positions.length > 300) {
-                this.positions.slice(Math.max(this.positions.length - 300, 1)).forEach(element => {
-                    this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    this.bubble.out.setAttribute("cx", element.x)
-                    this.bubble.out.setAttribute("cy", element.y)
-                    this.bubble.out.setAttribute("r", 1)
-                    this.bubble.out.setAttribute("fill", "none")
-                    this.bubble.out.setAttribute("stroke-width", "1")
-                    this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
-                    this.canvas.append(this.bubble.out)
-                })
-                    
-            } else {
-                this.positions.forEach(element => {
-                    this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    this.bubble.out.setAttribute("cx", element.x)
-                    this.bubble.out.setAttribute("cy", element.y)
-                    this.bubble.out.setAttribute("r", 1)
-                    this.bubble.out.setAttribute("fill", "none")
-                    this.bubble.out.setAttribute("stroke-width", "1")
-                    this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
-                    this.canvas.append(this.bubble.out)
-            });} 
-            
+               var pos = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                pos.setAttribute("cx", this.bubbleX)
+                pos.setAttribute("cy", this.bubbleY)
+                pos.setAttribute("r", 1)
+                pos.setAttribute("fill", "none")
+                pos.setAttribute("stroke-width", "1")
+                pos.setAttribute("stroke", "rgb(100, 255, 95)")
 
+               this.positions.push(pos);
+               this.canvas.append(pos)
+               this.canvas.removeChild(this.positions[0])
+               this.positions.shift();
+
+               
+               
+                
+               
+            //    this.positions.forEach(element => {
+            //         this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            //         this.bubble.out.setAttribute("cx", element.x)
+            //         this.bubble.out.setAttribute("cy", element.y)
+            //         this.bubble.out.setAttribute("r", 1)
+            //         this.bubble.out.setAttribute("fill", "none")
+            //         this.bubble.out.setAttribute("stroke-width", "1")
+            //         this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+            //         this.canvas.append(this.bubble.out)
+            //    });
+
+            // if (this.positions.length > 300) {
+            //     this.positions.slice(Math.max(this.positions.length - 300, 1)).forEach(element => {
+            //         this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            //         this.bubble.out.setAttribute("cx", element.x)
+            //         this.bubble.out.setAttribute("cy", element.y)
+            //         this.bubble.out.setAttribute("r", 1)
+            //         this.bubble.out.setAttribute("fill", "none")
+            //         this.bubble.out.setAttribute("stroke-width", "1")
+            //         this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+            //         this.canvas.append(this.bubble.out)
+            //     })
+                    
+            // } else {
+            //     this.positions.forEach(element => {
+            //         this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            //         this.bubble.out.setAttribute("cx", element.x)
+            //         this.bubble.out.setAttribute("cy", element.y)
+            //         this.bubble.out.setAttribute("r", 1)
+            //         this.bubble.out.setAttribute("fill", "none")
+            //         this.bubble.out.setAttribute("stroke-width", "1")
+            //         this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+            //         this.canvas.append(this.bubble.out)
+            // });} 
+            
             this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             this.bubble.out.setAttribute("cx", this.bubbleX)
             this.bubble.out.setAttribute("cy", this.bubbleY)
             this.bubble.out.setAttribute("r", 10)
             this.bubble.out.setAttribute("fill", "none")
             this.bubble.out.setAttribute("stroke-width", "2")
-            this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
+            this.bubble.out.setAttribute("stroke", this.bubbleColor)
             this.canvas.append(this.bubble.out)
             this.bubble.in = document.createElementNS("http://www.w3.org/2000/svg", "path");
             this.bubble.in.setAttribute("d", describeArc(this.bubbleX, this.bubbleY, 7, -10, 90))
             this.bubble.in.setAttribute("fill", "none")
             this.bubble.in.setAttribute("stroke-width", "2")
-            this.bubble.in.setAttribute("stroke", "rgb(0, 0, 0)")
+            this.bubble.in.setAttribute("stroke", this.bubbleColor)
             this.canvas.append(this.bubble.in)
-            setTimeout(this.updateBubble.bind(this), 10);
-            
         }
 
-        setupAnimation() {
+        goToAnimation(n){
+            return new Promise((resolve, reject) => {
+            const intervalId = setInterval(() => {
+                
+                var middleX = document.getElementsByClassName("flex-text")[n]
+                    .getBoundingClientRect().x 
+                    + (document.getElementsByClassName("flex-text")[0].getBoundingClientRect().width / 2)
+                var middleY = (this.canvas.getBoundingClientRect().height / 2)
+                var tx = middleX - this.bubbleX;
+                var ty = middleY - this.bubbleY;
+                var dist = Math.sqrt(tx*tx+ty*ty);
+                
+                var rad = Math.atan2(ty,tx);
+                var angle = rad/Math.PI * 180;
+
+                this.bubbleVelX = (tx/dist)*this.bubbleSpead ;
+                this.bubbleVelY = (ty/dist)*this.bubbleSpead ;
+            
+                this.bubbleX += this.bubbleVelX
+                this.bubbleY += this.bubbleVelY
+
+                if (dist < 2) {
+                    console.log("dist < 2");         
+                    this.canvas.removeChild(this.bubble.out);
+                    this.canvas.removeChild(this.bubble.in)                 
+                    this.secondAnimationReached = true
+                    clearInterval(intervalId)
+                    resolve()
+                }
+
+                try {
+                    this.canvas.removeChild(this.bubble.out);
+                    this.canvas.removeChild(this.bubble.in)}
+                catch(err){}
+                this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    this.bubble.out.setAttribute("cx", this.bubbleX)
+                    this.bubble.out.setAttribute("cy", this.bubbleY)
+                    this.bubble.out.setAttribute("r", 10)
+                    this.bubble.out.setAttribute("fill", "none")
+                    this.bubble.out.setAttribute("stroke-width", "2")
+                    this.bubble.out.setAttribute("stroke", this.bubbleColor)
+                    this.canvas.append(this.bubble.out)
+                    this.bubble.in = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    this.bubble.in.setAttribute("d", describeArc(this.bubbleX, this.bubbleY, 7, -10, 90))
+                    this.bubble.in.setAttribute("fill", "none")
+                    this.bubble.in.setAttribute("stroke-width", "2")
+                    this.bubble.in.setAttribute("stroke", this.bubbleColor)
+                    this.canvas.append(this.bubble.in)
+            }, 10);
+            
+        })
+    };
+
+        updateBox(){
             switch (this.state) {
                 case "setup-1":
-                    
-                   var middleX = document.getElementsByClassName("flex-text")[0]
+                    var middleX = document.getElementsByClassName("flex-text")[0]
                    .getBoundingClientRect().x 
                    + (document.getElementsByClassName("flex-text")[0].getBoundingClientRect().width / 2)
-                   var middleY = (this.canvas.getBoundingClientRect().height / 2)
+                   var middleY = (this.canvas.getBoundingClientRect().height / 2)                 
+                   
                    var limitX = middleX - 30;  
                    var limitY = middleY -25;
                    var tx = limitX - this.crossCenterX;
@@ -181,8 +262,9 @@ window.onload = () => {
                    try {
                     this.canvas.removeChild(this.cross.x);
                     this.canvas.removeChild(this.cross.y)
-                    this.canvas.removeChild(this.bubble.out);
-                    this.canvas.removeChild(this.bubble.in)}
+                    // this.canvas.removeChild(this.bubble.out);
+                    // this.canvas.removeChild(this.bubble.in)
+                }
                    catch(err){}
                    
                     this.cross.x = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -201,20 +283,6 @@ window.onload = () => {
                     this.cross.y.setAttribute("stroke-width", "2");
                     this.cross.y.setAttribute("stroke", "rgb(0, 0, 0)")
                     this.canvas.appendChild(this.cross.y);
-                    this.bubble.out = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    this.bubble.out.setAttribute("cx", middleX)
-                    this.bubble.out.setAttribute("cy", middleY)
-                    this.bubble.out.setAttribute("r", 10)
-                    this.bubble.out.setAttribute("fill", "none")
-                    this.bubble.out.setAttribute("stroke-width", "2")
-                    this.bubble.out.setAttribute("stroke", "rgb(0, 0, 0)")
-                    this.canvas.append(this.bubble.out)
-                    this.bubble.in = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    this.bubble.in.setAttribute("d", describeArc(middleX, middleY, 7, -10, 90))
-                    this.bubble.in.setAttribute("fill", "none")
-                    this.bubble.in.setAttribute("stroke-width", "2")
-                    this.bubble.in.setAttribute("stroke", "rgb(0, 0, 0)")
-                    this.canvas.append(this.bubble.in)
                    break;
                    
                case "setup-2":
@@ -279,17 +347,46 @@ window.onload = () => {
                    break;
                        
         }
-        setTimeout(this.setupAnimation.bind(this), 10);
-    }
+        }
+
+        setupAnimation() {
+            clearInterval(this.trackingInterval)
+            this.goToAnimation(0).then(() => {
+                // document.getElementsByClassName("flex-text")[0].style.fontSize = "30px"
+                setInterval(this.updateBox.bind(this), 10);
+            })
+        }
+
+        trackingAnimation(){
+            this.positions = []
+            for (let i = 0; i < 300; i++) {
+                var pos = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                pos.setAttribute("x1", 0)
+                pos.setAttribute("y1", 0)
+                pos.setAttribute("x2", 0)
+                pos.setAttribute("y2", 0)
+                pos.setAttribute("stroke-width", "1")
+                pos.setAttribute("stroke", "rgb(0, 0, 0)")
+                this.canvas.appendChild(pos)
+                this.positions.push(pos)
+            }
+            console.log(this.positions);
+            
+            clearInterval(this.trackingInterval)
+            console.log("trackingAnimation");
+            this.goToAnimation(1).then(() => {
+                console.log("arrived");
+                this.setTarget();
+                this.trackingInterval = setInterval(this.updateBubble.bind(this), 10);
+            })
+        }
+
     
         start() {
             console.log("start");
-            // this.setupAnimation();
-            // this.trackingAnimation();
+        };
     
-        }
-    
-      }
+    };
     
     progressbar = new ProgressBar(document.getElementById("progressbar-svg"))
     progressbar.resizeCanvas()
@@ -306,4 +403,3 @@ window.onload = () => {
     
     };
 
-    
