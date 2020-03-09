@@ -1,6 +1,8 @@
 body {
   margin: 0;
-  background-color: #F2F3FA;
+  background-color: #F2F7FB;
+  overflow: hidden;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .topnav {
@@ -49,21 +51,23 @@ body {
   top: 0;
   /* Stay at the top */
   left: 0;
-  background-color: #253544;
+  background-color: #263544;
   /* Black */
   overflow-x: hidden;
   /* Disable horizontal scroll */
   padding-top: 0px;
 }
 
-/* The navigation menu links */
+.sidenav .active {
+  background-color: #1C2431;
+}
+
 .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
   display: block;
-  font-family: 'Spartan', sans-serif;
   font-size: 20px;
 }
 
@@ -72,7 +76,7 @@ body {
 }
 
 #sidenav-logo {
-  background-color: #253544;
+  background-color: #263544;
   height: 50px;
   color: white;
   text-align: center;
@@ -97,7 +101,7 @@ body {
   left: 0;
   bottom: 0;
   top: 50px;
-  background-color: #e0e0e0;
+  background-color: #F2F7FB;
   padding: 0;
 }
 
@@ -118,6 +122,13 @@ body {
   background-color: #e0e0e0;
   width: 70vw;
   height: 80%;
+}
+
+.card {
+  overflow: hidden;
+  box-shadow: 0 0 5px 0 rgba(43, 43, 43, 0.1), 0 11px 6px -7px rgba(43, 43, 43, 0.1);
+  -webkit-box-shadow: 0 0 5px 0 rgba(43, 43, 43, 0.1), 0 11px 6px -7px rgba(43, 43, 43, 0.1);
+  border-radius: 5px;
 }
 
 #settings-side {
@@ -149,25 +160,94 @@ body {
 }
 
 #setting-title {
+  width: 100%;
+  height: 50px;
+  background-color: #2DD8B6;
+  -webkit-transition: background-color .2s linear;
+  transition: background-color .2s linear;
+}
+
+#settings-side-test {
+  left: 500px;
+  position: absolute;
+  width: 200px;
+  height: 700px;
+  background-color: white;
+}
+
+#sliding-tab-wrapper {
+  width: 400px;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  height: 100%;
+  -webkit-transition: -webkit-transform .2s ease-in-out;
+  transition: -webkit-transform .2s ease-in-out;
+  transition: transform .2s ease-in-out;
+  transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+}
+
+.content {
+  float: left;
+  width: 200px;
+  white-space: normal;
+  background-repeat: no-repeat;
+}
+
+#selection-tab {
+  background-color: white;
+}
+
+#scaling-tab {
+  background-color: white;
+}
+
+#contentContainer {
+  width: 200px;
+  height: 100%;
+  overflow: hidden;
+}
+
+#icons-part {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   margin: 0;
   width: 100%;
-  height: 30px;
-  background-color: #8785ff;
+  height: 35px;
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
 }
 
-.settings-title-icon {
+#icons-part a {
+  width: 50px;
+  text-align: center;
   color: white;
-  padding: 5px;
+  margin: 5px;
+  margin-top: 10px;
 }
 
-.settings-title-icon:hover {
-  color: white;
-  background-color: #485e74;
+#icons-part a :hover {
+  cursor: pointer;
+}
+
+#icons-part a i {
+  height: 100%;
+  width: 100%;
+}
+
+#select-tab-bar {
+  margin-top: 5px;
+  width: 100%;
+  height: 3px;
+}
+
+#select-tab-bar-selector {
+  background-color: white;
+  width: 50px;
+  height: 100%;
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+  border-radius: 10px;
 }
 /*# sourceMappingURL=newStyle.css.map */
