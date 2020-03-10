@@ -4,11 +4,12 @@ $(document).ready(function() {
 
   links[0].setAttribute("data-pos", "0px");
   links[1].setAttribute("data-pos", "-200px");
+  links[2].setAttribute("data-pos", "-400px");
   var wrapper = document.querySelector("#sliding-tab-wrapper");
   var visibleContainer = document.querySelector("#contentContainer");
   var iconPointer = document.querySelector("#select-tab-bar-selector");
   var titleDiv = document.querySelector("#setting-title");
-  var titleColors = ["#2DD8B6", "#FF5270"]
+  var titleColors = ["#2DD8B6", "#FF5270", "#FFB64D"]
   // the activeLink provides a pointer to the currently displayed item
   var activeLink = 0;
   // setup the event listeners
@@ -52,4 +53,25 @@ $(document).ready(function() {
     wrapper.style.transform = translateValue;
     // link.classList.add("active");
   }
+
+function toggleManualSelection(){
+document.getElementById("selection-mode-wrapper").style.marginLeft = "0";
+document.getElementsByClassName("left-arrow")[0].style.opacity = 0
+document.getElementsByClassName("right-arrow")[0].style.opacity = 1
+}
+
+function toggleAutoSelection(){
+    document.getElementById("selection-mode-wrapper").style.marginLeft = "-100px";
+    document.getElementsByClassName("left-arrow")[0].style.opacity = 1
+    document.getElementsByClassName("right-arrow")[0].style.opacity = 0
+}
+    
+  document.getElementsByClassName("left-arrow")[0].addEventListener("click", (e) => {
+    toggleManualSelection()
+  }, false);
+
+  document.getElementsByClassName("right-arrow")[0].addEventListener("click", (e) => {
+    toggleAutoSelection()
+}, false);
+toggleManualSelection()
 });

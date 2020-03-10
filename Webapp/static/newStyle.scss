@@ -20,6 +20,7 @@ body{
   }
 
 .topnav-icons{
+  width: 100%;
   margin: 0;
   position: absolute;
   top: 50%;
@@ -29,18 +30,36 @@ body{
   color: black;
   right: 0;
   margin: 0;
+  a {
+    color: black;
+    float: right;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 }
 
-.topnav-icons a {
-  color: black;
-  float: right;
-  margin-left: 5px;
-  margin-right: 5px;
+#fullscreen-btn{
+  float: left;
 }
 
 .cri-icon{
   background: url('https://www.cri-paris.org/user/themes/cri/images/CRI-sm.png');
   background-size: contain;
+  height: 50px;
+  width: 50px;
+}
+
+.fullscreen-icon{
+  margin-top: 5px;
+  background: url('https://img.icons8.com/ios/100/000000/full-screen.png');
+  background-size: contain;
+  height: 40px;
+  width: 40px;
+  transition: .2s;
+}
+
+.fullscreen-icon:hover{
+  margin: 0px;
   height: 50px;
   width: 50px;
 }
@@ -197,16 +216,16 @@ body{
 // ---------------------------
 $slidingTabWidth: 200px;
 
-#settings-side-test{
-  left: 500px;
-  position: absolute;
-  width: $slidingTabWidth;
-  height: 700px;
-  background-color: white;
-}
+// #settings-side-test{
+//   left: 500px;
+//   position: absolute;
+//   width: $slidingTabWidth;
+//   height: 700px;
+//   background-color: white;
+// }
 
 #sliding-tab-wrapper {
-  width: $slidingTabWidth*2;
+  width: $slidingTabWidth*3;
   transform: translate3d(0, 0, 0);
   height: 100%;
   transition: transform .2s ease-in-out;
@@ -222,9 +241,15 @@ $slidingTabWidth: 200px;
 
 #selection-tab {
   background-color: white;
+  text-align: center;
+  position: relative;
 }
 
 #scaling-tab {
+  background-color: white;
+}
+
+#image-tab {
   background-color: white;
 }
 
@@ -268,4 +293,60 @@ $slidingTabWidth: 200px;
   height: 100%;
   transition: .2s ease-in-out;
   border-radius: 10px;
+}
+
+.fa { font-family: 'FontAwesome' !important; }
+
+#selection-mode-switch{
+height: 30px;
+display: inline-block;
+width: 70%;
+float: none;
+  .left-arrow{
+    line-height: 30px;
+    height: 30px;
+    float: left;
+    width: 20px;
+    transition: opacity .2s ease-in-out;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .right-arrow{
+    line-height: 30px;
+    height: 30px;
+    float: right;
+    width: 20px;
+    transition: opacity .2s ease-in-out;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+
+#selection-mode-container{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 30px;
+  float: left;
+  overflow: hidden;
+}
+
+#selection-mode-wrapper{
+  width: 100px*2;
+  transform: translate3d(0, 0, 0);
+  height: 100%;
+  transition: .2s ease-in-out;
+}
+
+.selection-mode-content{
+  line-height: 30px;
+  float: left;
+  width: 100px;
+  height: 100%;
+  white-space: normal;
+  background-repeat: no-repeat;
 }

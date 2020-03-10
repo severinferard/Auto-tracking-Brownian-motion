@@ -14,6 +14,7 @@ body {
 }
 
 .topnav-icons {
+  width: 100%;
   margin: 0;
   position: absolute;
   top: 50%;
@@ -32,9 +33,29 @@ body {
   margin-right: 5px;
 }
 
+#fullscreen-btn {
+  float: left;
+}
+
 .cri-icon {
   background: url("https://www.cri-paris.org/user/themes/cri/images/CRI-sm.png");
   background-size: contain;
+  height: 50px;
+  width: 50px;
+}
+
+.fullscreen-icon {
+  margin-top: 5px;
+  background: url("https://img.icons8.com/ios/100/000000/full-screen.png");
+  background-size: contain;
+  height: 40px;
+  width: 40px;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.fullscreen-icon:hover {
+  margin: 0px;
   height: 50px;
   width: 50px;
 }
@@ -167,16 +188,8 @@ body {
   transition: background-color .2s linear;
 }
 
-#settings-side-test {
-  left: 500px;
-  position: absolute;
-  width: 200px;
-  height: 700px;
-  background-color: white;
-}
-
 #sliding-tab-wrapper {
-  width: 400px;
+  width: 600px;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   height: 100%;
@@ -195,9 +208,15 @@ body {
 
 #selection-tab {
   background-color: white;
+  text-align: center;
+  position: relative;
 }
 
 #scaling-tab {
+  background-color: white;
+}
+
+#image-tab {
   background-color: white;
 }
 
@@ -249,5 +268,71 @@ body {
   -webkit-transition: .2s ease-in-out;
   transition: .2s ease-in-out;
   border-radius: 10px;
+}
+
+.fa {
+  font-family: 'FontAwesome' !important;
+}
+
+#selection-mode-switch {
+  height: 30px;
+  display: inline-block;
+  width: 70%;
+  float: none;
+}
+
+#selection-mode-switch .left-arrow {
+  line-height: 30px;
+  height: 30px;
+  float: left;
+  width: 20px;
+  -webkit-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
+}
+
+#selection-mode-switch .left-arrow:hover {
+  cursor: pointer;
+}
+
+#selection-mode-switch .right-arrow {
+  line-height: 30px;
+  height: 30px;
+  float: right;
+  width: 20px;
+  -webkit-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
+}
+
+#selection-mode-switch .right-arrow:hover {
+  cursor: pointer;
+}
+
+#selection-mode-container {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 100px;
+  height: 30px;
+  float: left;
+  overflow: hidden;
+}
+
+#selection-mode-wrapper {
+  width: 200px;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  height: 100%;
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+}
+
+.selection-mode-content {
+  line-height: 30px;
+  float: left;
+  width: 100px;
+  height: 100%;
+  white-space: normal;
+  background-repeat: no-repeat;
 }
 /*# sourceMappingURL=newStyle.css.map */

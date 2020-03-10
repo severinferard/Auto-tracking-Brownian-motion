@@ -8,12 +8,13 @@
     <script src="/templates/samples/progressbar.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="/templates/samples/slidingtab.js"></script>
+    <script src="/templates/newView.js"></script>
 
     <link
       href="https://fonts.googleapis.com/css?family=Comfortaa|Quicksand&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Spartan&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
@@ -23,8 +24,9 @@
   <body>
     <div class="topnav">
       <div class="topnav-icons">
-        <a href="https://github.com/severinferard"><i class="fa fa-github topnav-icon"></i></a>
+        <a href="https://github.com/severinferard"><i class="fab fa-github topnav-icon"></i></a>
         <a href="https://www.cri-paris.org/en"><div class="cri-icon"></div></a>
+        <a id="fullscreen-btn" href="#!"><i class="fas fa-compress"></i></a>
       </div>
     </div>
 
@@ -46,8 +48,9 @@
             <div id="settings-wrapper">
               <div id="setting-title">
                   <div id="icons-part">
-                    <a class=""><i class="fa fa-object-ungroup settings-title-icon"></i></a>
-                    <a class=""><i class="fa fa-object-ungroup settings-title-icon"></i></a>
+                    <a class=""><i class="fas fa-mouse-pointer settings-title-icon"></i></a>
+                    <a class=""><i class="fas fa-ruler-horizontal settings-title-icon"></i></a>
+                    <a class=""><i class="fas fa-adjust settings-title-icon"></i></a>
                   </div>
                 <div id="select-tab-bar">
                     <div id="select-tab-bar-selector"></div>
@@ -56,11 +59,29 @@
               <div id="contentContainer">
                 <div id="sliding-tab-wrapper">
                     <div id="selection-tab" class="content">
-                        test1
+
+                      <div id="selection-mode-switch">
+                        <a class="left-arrow"><i class="fas fa-chevron-left"></i></a>
+                        <div id="selection-mode-container">
+                          <div id="selection-mode-wrapper">
+                            <div class="selection-mode-content">
+                              MANUAL
+                            </div>
+                            <div class="selection-mode-content">
+                              AUTO
+                            </div>
+                          </div>
+                        </div>
+                        <a class="right-arrow"><i class="fas fa-chevron-right"></i></a>
+                      </div>
                     </div>
+
                     <div id="scaling-tab" class="content">
                         test2
                     </div>
+                    <div id="image-tab" class="content">
+                      test3
+                  </div>
                 </div>
             </div>
             </div>

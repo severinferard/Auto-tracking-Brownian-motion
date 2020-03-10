@@ -19,6 +19,7 @@ body{
 
 .textbar{
     height: 30px;
+
     justify-content: space-around;
     list-style: none;
     display: flex;
@@ -29,8 +30,11 @@ body{
 }
 .flex-text{
     // width: 200px;
+    padding: 0 5px 0 5px;
+    line-height: 30px;
     font-size: 20px;
     color: black;
+    // background-color: rgb(68, 0, 255);
     font-family: 'Spartan', sans-serif;
 }
 
